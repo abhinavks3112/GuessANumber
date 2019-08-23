@@ -6,19 +6,20 @@ import {
     Button,
     StyleSheet
 } from 'react-native';
+import Card from '../components/Card';
 
 const StartGameScreen = () => {
     return (
         <View style={styles.screenStyle}>
             <Text style={styles.titleStyle}>Select a New Game!</Text>
-            <View style={styles.inputContainer}>
+            <Card style={styles.inputContainer}>
                 <Text>Select a Number</Text>
                 <TextInput />
                 <View style={styles.buttonContainerStyle}>
                     <Button title="RESET" onPress={() => {}} />
                     <Button title="CONFIRM" onPress={() => {}} />
                 </View>
-            </View>
+            </Card>
         </View>
     );
 };
@@ -36,15 +37,7 @@ const styles = StyleSheet.create({
     inputContainer: {
         width: 300,
         maxWidth: '90%',
-        alignItems: 'center',
-        shadowColor: 'black',
-        shadowOpacity: 0.26,
-        shadowRadius: 6,
-        shadowOffset: { width: 0, height: 3 },
-        backgroundColor: 'white',
-        elevation: 10,
-        padding: 20,
-        borderRadius: 10
+        alignItems: 'center'       
     },
     buttonContainerStyle: {
         flexDirection: 'row',
