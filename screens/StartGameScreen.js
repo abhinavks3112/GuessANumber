@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import {
+    View,
+    Text,
+    TextInput,
+    Button,
+    StyleSheet
+} from 'react-native';
 
 const StartGameScreen = () => {
     return (
@@ -29,8 +35,16 @@ const styles = StyleSheet.create({
     },
     inputContainer: {
         width: 300,
-        maxWidth: '80%',
-        alignItems: 'center'
+        maxWidth: '90%',
+        alignItems: 'center',
+        shadowColor: 'black',
+        shadowOpacity: 0.26,
+        shadowRadius: 6,
+        shadowOffset: { width: 0, height: 3 },
+        backgroundColor: 'white',
+        elevation: 10,
+        padding: 20,
+        borderRadius: 10
     },
     buttonContainerStyle: {
         flexDirection: 'row',
