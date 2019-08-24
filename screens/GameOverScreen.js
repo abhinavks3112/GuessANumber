@@ -9,6 +9,7 @@ import {
 import BodyText from '../components/BodyText';
 import TitleText from '../components/TitleText';
 import Colors from '../constants/colors';
+import MainButton from '../components/MainButton';
 
 const GameOverScreen = (props) => {
     const { roundsNumber, userNumber, onRestart } = props;
@@ -44,7 +45,9 @@ const GameOverScreen = (props) => {
                     </Text>
                 </BodyText>
             </View>
-            <Button title="NEW GAME" onPress={onRestart} />
+            <MainButton onPress={onRestart}>
+                NEW GAME
+            </MainButton>
         </View>
     );
 };
