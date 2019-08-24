@@ -1,12 +1,14 @@
 import React from 'react';
 import {
  View,
+ Text,
  StyleSheet,
  Button,
  Image
 } from 'react-native';
 import BodyText from '../components/BodyText';
 import TitleText from '../components/TitleText';
+import Colors from '../constants/colors';
 
 const GameOverScreen = (props) => {
     const { roundsNumber, userNumber, onRestart } = props;
@@ -21,14 +23,27 @@ const GameOverScreen = (props) => {
                 style={styles.imageStyle}
                 />
             </View>
-            <BodyText>
-                Number of rounds:
-                {roundsNumber}
-            </BodyText>
-            <BodyText>
-                Number was:
-                {userNumber}
-            </BodyText>
+            <View style={styles.resultSummaryStyle}>
+                <BodyText style={styles.resultText}>
+                {/* For nested Text, style is passed down,
+                but the same doesn't happen in View,
+                also Text doesn't use flexbox in
+                React, view does, but text has its own positioning sytem
+                which makes it to wrap the text to other line if it doesn't
+                fit in one line */}
+                    Your phone needed
+                    {' '}
+                    <Text style={styles.highlight}>
+                    {roundsNumber}
+                    </Text>
+                    {' '}
+                    rounds to guess the number
+                    {' '}
+                    <Text style={styles.highlight}>
+                    {userNumber}
+                    </Text>
+                </BodyText>
+            </View>
             <Button title="NEW GAME" onPress={onRestart} />
         </View>
     );
@@ -52,6 +67,18 @@ const styles = StyleSheet.create({
     imageStyle: {
         width: '100%',
         height: '100%'
+    },
+    resultSummaryStyle: {
+        marginHorizontal: 30,
+        marginBottom: 20
+    },
+    resultText: {
+        textAlign: 'center',
+        fontSize: 20
+    },
+    highlight: {
+        color: Colors.primary,
+        fontFamily: 'open-sans-bold'
     }
 });
 
