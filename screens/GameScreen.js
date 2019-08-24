@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
  View,
  Text,
@@ -20,16 +20,27 @@ const generateRandomBetween = (min, max, exclude) => {
 };
 
 const GameScreen = (props) => {
+    const { userChoice, onGameOver } = props;
+
     const [currentGuess, setCurrentGuess] = useState(
-        generateRandomBetween(1, 100, props.userChoice)
+        generateRandomBetween(1, 100, userChoice)
     );
+    const [numRounds, setNumRounds] = useState(0);
     const currentLow = useRef(1);
     const currentHigh = useRef(100);
 
+    useEffect(() => {
+        if (currentGuess === userChoice) {
+            onGameOver(numRounds);
+        }
+    }, [currentGuess, userChoice, onGameOver]);
+    // above:notified as dependencies so that useEffect only re-run,
+    // when there is change in either of these values
+
     const nextGuessHandler = (direction) => {
         if (
-            (direction === 'lower' && currentGuess < props.userChoice)
-        ||  (direction === 'greater' && currentGuess > props.userChoice)) {
+            (direction === 'lower' && currentGuess < userChoice)
+        || (direction === 'greater' && currentGuess > userChoice)) {
             Alert.alert('Don\' Lie!!', 'You know that this is wrong...', [{ text: 'Sorry', style: 'cancel' }]);
             return;
         }
@@ -44,6 +55,7 @@ const GameScreen = (props) => {
             currentGuess
         );
         setCurrentGuess(nextNumber);
+        setNumRounds((curRounds) => curRounds + 1);
     };
 
     return (
