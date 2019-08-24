@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import {
  View,
  StyleSheet,
- Button,
  Alert
 } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import NumberContainer from '../components/NumberContainer';
 import Card from '../components/Card';
 import BodyText from '../components/BodyText';
@@ -78,12 +78,12 @@ const GameScreen = (props) => {
             <Card style={styles.cardStyle}>
                 <View style={styles.buttonStyle}>
                    <MainButton onPress={nextGuessHandler.bind(this, 'lower')}>
-                        LOWER
+                        <Ionicons name="md-remove" size={24} color="white" />
                    </MainButton>
                 </View>
                 <View style={styles.buttonStyle}>
                    <MainButton onPress={nextGuessHandler.bind(this, 'greater')}>
-                        GREATER
+                        <Ionicons name="md-add" size={24} color="white" />
                    </MainButton>
                 </View>
             </Card>
@@ -99,13 +99,12 @@ const styles = StyleSheet.create({
     },
     cardStyle: {
         flexDirection: 'row',
-        width: 400,
-        maxWidth: '90%',
+        width: 300,
+        maxWidth: '80%',
         justifyContent: 'space-around',
         marginTop: 20
     },
-    buttonStyle: {
-        width: '48%',
+    buttonStyle: {       
         textAlign: 'center'
     }
 });
