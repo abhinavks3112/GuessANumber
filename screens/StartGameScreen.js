@@ -5,7 +5,8 @@ import {
     StyleSheet,
     TouchableWithoutFeedback,
     Keyboard,
-    Alert
+    Alert,
+    Dimensions
 } from 'react-native';
 import Card from '../components/Card';
 import Colors from '../constants/colors';
@@ -67,7 +68,7 @@ const StartGameScreen = (props) => {
         // Close keyboard on touch
         <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
             <View style={styles.screenStyle}>
-                <TitleText style={styles.titleStyle}>Select a New Game!</TitleText>
+                <TitleText style={styles.titleStyle}>Start a New Game!</TitleText>
                 <Card style={styles.inputContainer}>
                     <BodyText>Select a Number</BodyText>
                     <Input
@@ -106,8 +107,9 @@ const styles = StyleSheet.create({
         marginVertical: 10
     },
     inputContainer: {
-        width: 300,
+        width: '80%',
         maxWidth: '90%',
+        minWidth: 300,
         alignItems: 'center'
     },
     buttonContainerStyle: {
@@ -117,7 +119,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15
     },
     buttonStyle: {
-        width: '40%',
+        // width: '40%',
+        // It gives us absolute width and not with respect to parent
+        // regardless from where its called
+        width: Dimensions.get('window').width / 4,
         margin: 10
     },
     inputStyle: {
