@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     View,
     Button,
@@ -22,11 +22,28 @@ const StartGameScreen = (props) => {
     const [enteredValue, setEnteredValue] = useState('');
     const [hasUserConfirmed, setHasUserConfirmed] = useState(false);
     const [selectedNumber, setSelectedNumber] = useState();
+    const [buttonWidth, setButtonWidth] = useState(Dimensions.get('window').width / 4);
+
 
     const numberInputHandler = (inputText) => {
         // Replace anything other than numbers to empty string
         setEnteredValue(inputText.replace(/[^0-9]/g, ''));
     };
+
+    /* Using useEffect to add event listener otherwise a new event listener will be
+    generated on each render, but in this case we can use a cleanup function to first
+    remove any previous event listener and then add a new one so that only one instance
+    of event listener remain in any point of time */
+    useEffect(() => {
+        const updateLayout = () => {
+            setButtonWidth(Dimensions.get('window').width / 4);
+        };
+
+        Dimensions.addEventListener('change', updateLayout);
+        return (() => {
+            Dimensions.removeEventListener('change', updateLayout);
+        });
+    });
 
     const resetInputHandler = () => {
         setEnteredValue('');
@@ -86,10 +103,10 @@ const StartGameScreen = (props) => {
                             value={enteredValue}
                             />
                             <View style={styles.buttonContainerStyle}>
-                                <View style={styles.buttonStyle}>
+                                <View style={{ width: buttonWidth }}>
                                     <Button title="RESET" onPress={resetInputHandler} color={Colors.accent} />
                                 </View>
-                                <View style={styles.buttonStyle}>
+                                <View style={{ width: buttonWidth }}>
                                     <Button title="CONFIRM" onPress={confirmInputHandler} color={Colors.primary} />
                                 </View>
                             </View>
@@ -124,13 +141,15 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 15
     },
-    buttonStyle: {
-        width: '40%',
+    /* buttonStyle: {
+        // width: '40%',
         // It gives us absolute width and not with respect to parent
         // regardless from where its called
-        // width: Dimensions.get('window').width / 4,
+        // Setting dimension here only runs once so need it to put somewhere,
+        // where it can recalculate each time orientation changes
+        width: Dimensions.get('window').width / 4,
         margin: 10
-    },
+    }, */
     inputStyle: {
         width: 50,
         textAlign: 'center'
