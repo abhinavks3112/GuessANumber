@@ -80,7 +80,7 @@ const GameScreen = (props) => {
         };
         Dimensions.addEventListener('change', updateLayout);
 
-        return(() => {
+        return (() => {
             Dimensions.removeEventListener('change', updateLayout);
         });
     });
