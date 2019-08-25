@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
         maxWidth: '80%',
         justifyContent: 'space-around',
        // marginTop: 20
-       marginTop: Dimensions.get('window').height > 600 ? 20 : 5,
+       marginTop: Dimensions.get('window').height > 600 ? 20 : 5
     },
     buttonStyle: {
         textAlign: 'center'

@@ -6,7 +6,9 @@ import {
     TouchableWithoutFeedback,
     Keyboard,
     Alert,
-    Dimensions
+    Dimensions,
+    ScrollView,
+    KeyboardAvoidingView // To avoid overlapping keyboard over our display
 } from 'react-native';
 import Card from '../components/Card';
 import Colors from '../constants/colors';
@@ -65,34 +67,38 @@ const StartGameScreen = (props) => {
     }
 
     return (
-        // Close keyboard on touch
-        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-            <View style={styles.screenStyle}>
-                <TitleText style={styles.titleStyle}>Start a New Game!</TitleText>
-                <Card style={styles.inputContainer}>
-                    <BodyText>Select a Number</BodyText>
-                    <Input
-                    style={styles.inputStyle}
-                    blurOnSubmit
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    keyboardType="number-pad"
-                    maxLength={2}
-                    onChangeText={numberInputHandler}
-                    value={enteredValue}
-                    />
-                    <View style={styles.buttonContainerStyle}>
-                        <View style={styles.buttonStyle}>
-                            <Button title="RESET" onPress={resetInputHandler} color={Colors.accent} />
-                        </View>
-                        <View style={styles.buttonStyle}>
-                            <Button title="CONFIRM" onPress={confirmInputHandler} color={Colors.primary} />
-                        </View>
+        <ScrollView>
+            <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={30}>
+                {/* Close keyboard on touch */}
+                <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+                    <View style={styles.screenStyle}>
+                        <TitleText style={styles.titleStyle}>Start a New Game!</TitleText>
+                        <Card style={styles.inputContainer}>
+                            <BodyText>Select a Number</BodyText>
+                            <Input
+                            style={styles.inputStyle}
+                            blurOnSubmit
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            keyboardType="number-pad"
+                            maxLength={2}
+                            onChangeText={numberInputHandler}
+                            value={enteredValue}
+                            />
+                            <View style={styles.buttonContainerStyle}>
+                                <View style={styles.buttonStyle}>
+                                    <Button title="RESET" onPress={resetInputHandler} color={Colors.accent} />
+                                </View>
+                                <View style={styles.buttonStyle}>
+                                    <Button title="CONFIRM" onPress={confirmInputHandler} color={Colors.primary} />
+                                </View>
+                            </View>
+                        </Card>
+                        {confirmedOutput}
                     </View>
-                </Card>
-                {confirmedOutput}
-            </View>
-        </TouchableWithoutFeedback>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
+        </ScrollView>
     );
 };
 
@@ -119,10 +125,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15
     },
     buttonStyle: {
-        // width: '40%',
+        width: '40%',
         // It gives us absolute width and not with respect to parent
         // regardless from where its called
-        width: Dimensions.get('window').width / 4,
+        // width: Dimensions.get('window').width / 4,
         margin: 10
     },
     inputStyle: {
@@ -130,7 +136,7 @@ const styles = StyleSheet.create({
         textAlign: 'center'
     },
     confirmSummaryStyle: {
-        width: '90%',
+        width: '80%',
         backgroundColor: 'white',
         marginTop: 20,
         alignItems: 'center'
