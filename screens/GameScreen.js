@@ -3,7 +3,8 @@ import {
  View,
  StyleSheet,
  Alert,
- ScrollView
+ ScrollView,
+ FlatList
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import NumberContainer from '../components/NumberContainer';
@@ -22,7 +23,8 @@ const generateRandomBetween = (min, max, exclude) => {
     return randomNumber;
 };
 
-const renderListItem = (value, numofRound) => (
+// for ScrollView
+/* const renderListItem = (value, numofRound) => (
         <View key={value} style={styles.listItemStyle}>
             <BodyText>
                 #
@@ -30,7 +32,21 @@ const renderListItem = (value, numofRound) => (
             </BodyText>
             <BodyText>{value}</BodyText>
         </View>
-    );
+); */
+
+/* For FlatList, itemData is implicit and default argument, hence
+needs to placed as last argument, any other argument that we expects
+must be placed before the default argument */
+const renderListItem = (listLength, itemData) => (
+    <View style={styles.listItemStyle}>
+        <BodyText>
+            #
+            {listLength - itemData.index}
+        </BodyText>
+        <BodyText>{itemData.item}</BodyText>
+    </View>
+);
+
 
 const GameScreen = (props) => {
     const { userChoice, onGameOver } = props;
@@ -38,7 +54,8 @@ const GameScreen = (props) => {
     const initialGuess = generateRandomBetween(1, 100, userChoice);
 
     const [currentGuess, setCurrentGuess] = useState(initialGuess);
-    const [pastGuesses, setPastGuesses] = useState([initialGuess]);
+    // const [pastGuesses, setPastGuesses] = useState([initialGuess]);
+    const [pastGuesses, setPastGuesses] = useState([initialGuess.toString()]);// for flatlist
 
      /* The difference to store in ref than state is that component doesn't re-initialize
         on each re-render but will retain value that we have changes of it elsewhere
@@ -81,7 +98,10 @@ const GameScreen = (props) => {
         );
         setCurrentGuess(nextNumber);
         // Adding past guesses to front of list so that recent one always show on top
-        setPastGuesses((curPastGuesses) => [nextNumber, ...curPastGuesses]);
+        // setPastGuesses((curPastGuesses) => [nextNumber, ...curPastGuesses]);
+        setPastGuesses((curPastGuesses) => [
+            nextNumber.toString(), ...curPastGuesses
+        ]); // for flatlist
     };
 
     return (
@@ -106,11 +126,29 @@ const GameScreen = (props) => {
             <View style={styles.listContainerStyle}>
                 {/* To add styles to ScrollView we cannot directly use styles but we
                 must use ContentContainerStyle prop, same for flatList */}
-                <ScrollView contentContainerStyle={styles.listStyle}>
+                {/* <ScrollView contentContainerStyle={styles.listStyle}>
                     {pastGuesses.map(
                         (guess, index) => renderListItem(guess, pastGuesses.length - index)
                     )}
-                </ScrollView>
+                </ScrollView> */}
+                 {/* Flatlist expects a string in key and not a number, so
+                 we need to convert our number to string */}
+                <FlatList
+                /* Using only style instead of contentContainerStyle allows eg. to adjust margin
+                inside the list but not align content inside the list */
+                contentContainerStyle={styles.listStyle}
+                data={pastGuesses}
+                /* ItemData will be passed by default, other argument must be passed by binding
+                it and also this is always the first argument or null,second argument we add
+                here will be the first argument we receive since ItemData is default and default
+                argument are always at last position, we don't have access to index here but
+                ItemData does, along with data, it contain index as well */
+                renderItem={renderListItem.bind(this, pastGuesses.length)}
+                /* Flatlist expects an array of objects with key property since we only have
+                an array, we can override the default beahviour by providing a key using
+                KeyExtractor */
+                keyExtractor={(guess) => guess}
+                />
             </View>
         </View>
     );
