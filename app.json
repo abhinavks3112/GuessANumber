@@ -1,21 +1,20 @@
 {
   "expo": {
     "name": "Guess A Number",
+    "description": "A demo app built using react native expo, showcasing orientation control, automatic width and layout adjustment according to screen orientation, behind the scene naviagtion using state management, and use of react hooks as well as redux hooks.",
     "slug": "GuessANumber",
     "privacy": "public",
     "sdkVersion": "34.0.0",
     "platforms": [
-      "ios",
-      "android",
-      "web"
+      "android"
     ],
     "version": "1.0.0",
     "orientation": "default",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/GuessANumber.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/GuessANumber_Splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#8C52FF"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -23,8 +22,11 @@
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/GuessANumber.png",
+        "backgroundColor": "#8C52FF"
+      }
     }
   }
 }
